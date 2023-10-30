@@ -1,6 +1,5 @@
 # Implmentation for HTML + IFrame + JS
 
-
 This sample embeds an Incode Iframe app inside an HTML page.  It can be used as a reference for building a production applications.
 
 See setup instructions, [Setup and Run App](#setup-and-run-app).
@@ -10,9 +9,8 @@ See setup instructions, [Setup and Run App](#setup-and-run-app).
 Using the command line, clone the GitHub Sample repo named html-samples to your computer.  Next change directory to the root of HTML-IFRAME-JS folder which contains the package.json file. 
 
 ```
-cd ./html-samples/HTML-IFRAME-JS
+cd ./html-samples/html-iframe-js
 ```
-
 
 ## Security Considerations
 
@@ -32,11 +30,11 @@ It's a best pratice to create an Incode sessions on a server (not on the client)
 
 Check out sample servers here:
 
-_.NET_ - [.NET Sample Server][dotnet_url_sample]
-_NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
-_Java_ - TBD
-_PHP_ - TBD
-_Python_ - TBD
+* _.NET_ - [.NET Sample Server][dotnet_url_sample]
+* _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
+* _Java_ - TBD
+* _PHP_ - TBD
+* _Python_ - TBD
 
 This sample fetches a session from the sample server in the onload function inside ```main.js``` and places the onboarding ```url```, ```interviewId``` and ```token``` inside the config object. 
 
@@ -108,7 +106,7 @@ _Python_ - TBD
 
 ```
 VITE_INCODE_API_URL=https://demo-api.incodesmile.com/0
-VITE_YOUR_COMPANY_SERVER=<your-sample-root-url>
+VITE_YOUR_COMPANY_SERVER=<your-sample-server-base-url>
 ```
 
 and rename it to ```.env```
@@ -119,6 +117,6 @@ and rename it to ```.env```
 
 
 
-[dontnet_url_sample]: https://github.com/Incode-Technologies-Example-Repos/dotnet-samples/tree/main/token-server
+[dotnet_url_sample]: https://github.com/Incode-Technologies-Example-Repos/dotnet-samples/tree/main/token-server
 
 [nodejs_url_sample]: https://github.com/Incode-Technologies-Example-Repos/nodejs-samples/tree/main/token-and-url-server
