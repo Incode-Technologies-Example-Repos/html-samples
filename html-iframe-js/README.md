@@ -6,7 +6,7 @@ See setup instructions, [Setup and Run App](#setup-and-run-app).
 
 ## Project Setup
 
-Using the command line, clone the GitHub Sample repo named html-samples to your computer.  Next change directory to the root of HTML-IFRAME-JS folder which contains the package.json file. 
+Using the command line, clone the GitHub Sample repo named html-samples to your computer.  Next change directory to the root of html-iframe-js folder which contains the package.json file. 
 
 ```
 cd ./html-samples/html-iframe-js
@@ -96,11 +96,11 @@ The styling of the app is set inside ```src/styles/style.css```.  If you would l
 
 1) Select and start a sample server:
 
-_.NET_ - [.NET Sample Server][dotnet_url_sample]
-_NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
-_Java_ - TBD
-_PHP_ - TBD
-_Python_ - TBD
+* _.NET_ - [.NET Sample Server][dotnet_url_sample]
+* _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
+* _Java_ - TBD
+* _PHP_ - TBD
+* _Python_ - TBD
 
 2) Set the ```.env.example ``` variables to the following
 
