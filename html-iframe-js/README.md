@@ -34,7 +34,7 @@ Check out sample servers here:
 * _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
 * _Java_ - TBD
 * _PHP_ - TBD
-* _Python_ - TBD
+* _Python_ - [Python Sample Server][python_server_sample]
 
 This sample fetches a session from the sample server in the onload function inside ```main.js``` and places the onboarding ```url```, ```interviewId``` and ```token``` inside the config object. 
 
@@ -100,7 +100,7 @@ The styling of the app is set inside ```src/styles/style.css```.  If you would l
 * _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
 * _Java_ - TBD
 * _PHP_ - TBD
-* _Python_ - TBD
+* _Python_ - [Python Sample Server][python_server_sample]
 
 2) Set the ```.env.example ``` variables to the following
 
@@ -120,3 +120,5 @@ and rename it to ```.env```
 [dotnet_url_sample]: https://github.com/Incode-Technologies-Example-Repos/dotnet-samples/tree/main/token-server
 
 [nodejs_url_sample]: https://github.com/Incode-Technologies-Example-Repos/nodejs-samples/tree/main/token-and-url-server
+
+[python_server_sample]: https://github.com/Incode-Technologies-Example-Repos/python-samples#incode-samples

@@ -3,9 +3,7 @@ import '/src/styles/style.css'
 // Application varables set via Vite and .env file
 const apiUrl = import.meta.env.VITE_INCODE_API_URL;
 const serverUrl = import.meta.env.VITE_YOUR_COMPANY_SERVER;
-
 let interval = null;
-
 const app = document.getElementById('app');
 
 const doGet = async (url, params, header) => {
@@ -15,7 +13,8 @@ const doGet = async (url, params, header) => {
   }
   try {
     const response = await fetch(url, { headers: header });
-    return response.json();
+    console.log(response);
+    return await response.json();
   } catch (e) {
     console.log(`Error:  HTTPGET error.`, e);
   }
@@ -46,7 +45,7 @@ const createIframe = (config) => {
 
 const poll = async (config) => {
   // Poll for onboarding finished status
-  const results = await doGet(`${apiUrl}/0/omni/get/onboarding/status`, { id: config.id }, getHeaders());
+  const results = await doGet(`${apiUrl}/omni/get/onboarding/status`, { id: config.interviewId }, getHeaders(config));
   if (results.onboardingStatus === 'ONBOARDING_FINISHED') {
     clearInterval(interval);
     clear(app);
@@ -73,12 +72,15 @@ window.onload = async () => {
   const config = await doGet(`${serverUrl}/onboarding-url`, null, {
     'ngrok-skip-browser-warning': 'ok',
   });
-
   if (config?.url && config?.token && config?.interviewId) {
     createIframe(config);
     // Poll every two seconds
     interval = setInterval(poll, 2000, config);
   } else {
-    console.log(`Error:  Config error.`, e);
-  }
+    try {
+      console.log("The config object is: ", config)
+    } catch (e) {
+      console.log(`Error:  Config error.`, e);
+    }
+  };
 };
