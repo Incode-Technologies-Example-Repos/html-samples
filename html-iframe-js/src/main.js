@@ -15,7 +15,7 @@ const doGet = async (url, params, header) => {
   }
   try {
     const response = await fetch(url, { headers: header });
-    return response.json();
+    return response.text();
   } catch (e) {
     console.log(`Error:  HTTPGET error.`, e);
   }
@@ -79,6 +79,11 @@ window.onload = async () => {
     // Poll every two seconds
     interval = setInterval(poll, 2000, config);
   } else {
-    console.log(`Error:  Config error.`, e);
-  }
+    try {
+      const response = await fetch(serverUrl);
+      return response.text();
+    } catch (e) {
+      console.log(`Error:  Config error.`, e);
+    }
+  };
 };
