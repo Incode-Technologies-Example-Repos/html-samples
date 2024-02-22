@@ -1,34 +1,4 @@
-import '/src/styles/style.css'
-
-// Application varables set via Vite and .env file
-const apiUrl = import.meta.env.VITE_INCODE_API_URL;
-const serverUrl = import.meta.env.VITE_YOUR_COMPANY_SERVER;
-
-let interval = null;
-
-const app = document.getElementById('app');
-
-const doGet = async (url, params, header) => {
-  // Utility method for making GET requests
-  if (params) {
-    url = `${url}?` + new URLSearchParams(params);
-  }
-  try {
-    const response = await fetch(url, { headers: header });
-    return response.json();
-  } catch (e) {
-    console.log(`Error:  HTTPGET error.`, e);
-  }
-}
-
-const getHeaders = (config) => {
-  // Required headers per Incode API
-  return {
-    'Content-Type': 'application/json',
-    'X-Incode-Hardware-Id': config.token,
-    'api-version': '1.0'
-  }
-}
+import { fetchOnboardingStatus, fetchOnboardingUrl } from './onboarding';
 
 const createIframe = (config) => {
   // Dynamically create the iframe
@@ -44,41 +14,34 @@ const createIframe = (config) => {
   app.appendChild(frame);
 }
 
-const poll = async (config) => {
-  // Poll for onboarding finished status
-  const results = await doGet(`${apiUrl}/0/omni/get/onboarding/status`, { id: config.id }, getHeaders());
-  if (results.onboardingStatus === 'ONBOARDING_FINISHED') {
-    clearInterval(interval);
-    clear(app);
-    finish();
-  }
-}
-
-const clear = async (el) => {
-  // Clear iframe because onboarding has finished
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-}
-
-const finish = (el)=> {
-  //  Updates the UI after onboarding has finished
-  const paragraph = document.createElement('p');
-  paragraph.textContent = "Ok, finished.";
-  app.appendChild(paragraph);
-}
-
-window.onload = async () => {
-  // Start session and get onboarding URL from server
-  const config = await doGet(`${serverUrl}/onboarding-url`, null, {
-    'ngrok-skip-browser-warning': 'ok',
-  });
-
-  if (config?.url && config?.token && config?.interviewId) {
+async function app() {
+  const app = document.getElementById('app');
+  app.innerHTML = "Loading...";
+  
+  try {
+    const config = await fetchOnboardingUrl();
     createIframe(config);
-    // Poll every two seconds
-    interval = setInterval(poll, 2000, config);
-  } else {
-    console.log(`Error:  Config error.`, e);
-  }
-};
+
+    try {
+      const interval = setInterval(async () => {
+        const {success, finished, error } = await fetchOnboardingStatus(interviewId);
+        if (success===true && finished===true){
+          clearInterval(interval);
+          app.innerHTML =`Onboarding Finished!`;
+        } else if(success===false){
+          clearInterval(interval);
+          app.innerHTML =`There was an error: ${error}`;
+        }
+      }, 1000);
+      
+      app.innerHTML =`Waiting for onboarding to finish!`;
+    } catch(e) {
+      app.innerHTML = e.message;
+    } 
+
+  } catch(e) {
+    app.innerHTML = e.message;
+  } 
+}
+
+document.addEventListener("DOMContentLoaded", app);

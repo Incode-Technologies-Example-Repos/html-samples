@@ -10,7 +10,7 @@ async function app() {
   app.innerHTML = `Waiting for the Onboarding status for interviewId: ${interviewId}`;
   
   try {
-    const interval = setInterval(async ()=>{
+    const interval = setInterval(async () => {
       const {success, finished, error } = await fetchOnboardingStatus(interviewId);
       if (success===true && finished===true){
         clearInterval(interval);
