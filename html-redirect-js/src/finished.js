@@ -21,8 +21,6 @@ async function app() {
       }
     }, 1000);
     
-    const onboardingIsFinished = await fetchOnboardingStatus();
-    
     app.innerHTML =`Waiting for onboarding to finish!`;
   } catch(e) {
     app.innerHTML = e.message;
