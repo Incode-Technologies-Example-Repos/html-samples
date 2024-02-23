@@ -1,9 +1,10 @@
 import { fetchOnboardingStatus, fetchOnboardingUrl } from './onboarding';
 
-const createIframe = (config) => {
+const createIframe = (url) => {
+  const app = document.getElementById('app');
   // Dynamically create the iframe
   const frame = document.createElement('iframe');
-  frame.src = config.url;
+  frame.src = url;
   frame.class = 'onboarding-view'
   frame.id = 'app-frame'
   frame.width = '100%';
@@ -16,11 +17,12 @@ const createIframe = (config) => {
 
 async function app() {
   const app = document.getElementById('app');
-  app.innerHTML = "Loading...";
+  
   
   try {
-    const config = await fetchOnboardingUrl();
-    createIframe(config);
+    const {url, interviewId} = await fetchOnboardingUrl();
+    app.innerHTML = "";
+    createIframe(url);
 
     try {
       const interval = setInterval(async () => {
@@ -32,7 +34,7 @@ async function app() {
           clearInterval(interval);
           app.innerHTML =`There was an error: ${error}`;
         }
-      }, 2000);
+      }, 1000);
     } catch(e) {
       app.innerHTML = e.message;
     } 

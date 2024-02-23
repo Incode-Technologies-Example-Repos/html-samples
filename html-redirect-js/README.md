@@ -24,4 +24,4 @@ Run it in development by executing
 npm run dev
 ```
 
-You will get a hotreloading environment that exposes the page in localhost and in the ip of the machine in case you want to try it in your cellphone.
+You will get a hot reloading environment that exposes the page in localhost and in the ip of the machine in case you want to try it in your cellphone.
