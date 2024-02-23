@@ -32,9 +32,7 @@ async function app() {
           clearInterval(interval);
           app.innerHTML =`There was an error: ${error}`;
         }
-      }, 1000);
-      
-      app.innerHTML =`Waiting for onboarding to finish!`;
+      }, 2000);
     } catch(e) {
       app.innerHTML = e.message;
     } 

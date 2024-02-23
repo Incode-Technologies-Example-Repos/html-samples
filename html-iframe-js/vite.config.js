@@ -1,10 +1,7 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-//   server: {
-//     https: {
-//       key: 'path/to/your/key.pem',
-//       cert: 'path/to/your/cert.pem',
-//     },
-//   },
-});
+  server: { https: true },
+  plugins: [ mkcert() ]
+})
