@@ -17,22 +17,23 @@ const createIframe = (url) => {
 
 async function app() {
   const app = document.getElementById('app');
-  
-  
   try {
     const {url, interviewId} = await fetchOnboardingUrl();
     app.innerHTML = "";
     createIframe(url);
-
     try {
       const interval = setInterval(async () => {
-        const {success, finished, error } = await fetchOnboardingStatus(interviewId);
+        const {success, finished, error, passed } = await fetchOnboardingStatus(interviewId);
         if (success===true && finished===true){
           clearInterval(interval);
-          app.innerHTML =`Onboarding Finished!`;
+          if(passed){
+            app.innerHTML ='<h1 class="message">User onboarded succesfully!</h1>';
+          } else {
+            app.innerHTML ='<h1 class="message">User failed validation.</h1>';
+          }
         } else if(success===false){
           clearInterval(interval);
-          app.innerHTML =`There was an error: ${error}`;
+          app.innerHTML =`<h1 class="message">${error}</h1>`;
         }
       }, 1000);
     } catch(e) {
@@ -40,7 +41,7 @@ async function app() {
     } 
 
   } catch(e) {
-    app.innerHTML = e.message;
+    app.innerHTML =`<h1 class="message">There was an error: ${e.message}</h1>`;
   } 
 }
 
