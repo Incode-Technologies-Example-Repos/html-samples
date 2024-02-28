@@ -4,9 +4,10 @@ async function app() {
   const app = document.getElementById('app');
   app.innerHTML = `<h1>Loading...</h1>`;
   try {
-    const {success, error, url, interviewId} = await fetchOnboardingUrl();
+    const {success, error, url, interviewId, token} = await fetchOnboardingUrl();
     if (success){
       localStorage.setItem("interviewId", interviewId);
+      localStorage.setItem("token", token);
       
       app.innerHTML =`<h1><a href="${url}">Click Here to Continue</a></h1>`;
       window.location.replace(url);
