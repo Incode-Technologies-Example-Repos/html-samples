@@ -2,6 +2,7 @@ import {fetchScore} from './onboarding';
 
 async function app() {
   const app = document.getElementById('app');
+  app.innerHTML = `<h1>Loading...</h1>`;
   
   const interviewId = localStorage.getItem('interviewId');
   if (!interviewId) {

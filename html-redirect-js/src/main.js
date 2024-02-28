@@ -2,13 +2,13 @@ import {fetchOnboardingUrl} from './onboarding';
 
 async function app() {
   const app = document.getElementById('app');
-  app.innerHTML = "Loading...";
+  app.innerHTML = `<h1>Loading...</h1>`;
   try {
     const {success, error, url, interviewId} = await fetchOnboardingUrl();
     if (success){
       localStorage.setItem("interviewId", interviewId);
       
-      app.innerHTML =`<a href="${url}">Click Here to Continue</a>`;
+      app.innerHTML =`<h1><a href="${url}">Click Here to Continue</a></h1>`;
       window.location.replace(url);
     } else {
       app.innerHTML = `<h1>Error: ${error}</h1>`;
