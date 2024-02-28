@@ -1,4 +1,4 @@
-import { fetchOnboardingStatus, fetchOnboardingUrl } from './onboarding';
+import { fetchOnboardingStatus, fetchScore, fetchOnboardingUrl } from './onboarding';
 
 const createIframe = (url) => {
   const app = document.getElementById('app');
@@ -18,30 +18,31 @@ const createIframe = (url) => {
 async function app() {
   const app = document.getElementById('app');
   try {
-    const {url, interviewId} = await fetchOnboardingUrl();
+    const {url, interviewId, token} = await fetchOnboardingUrl();
     app.innerHTML = "";
     createIframe(url);
     try {
       const interval = setInterval(async () => {
-        const {success, finished, error, passed } = await fetchOnboardingStatus(interviewId);
-        if (success===true && finished===true){
+        const onboarding = await fetchOnboardingStatus(interviewId);
+        if (onboarding.success===true && onboarding.onboardingStatus==='ONBOARDING_FINISHED'){
           clearInterval(interval);
-          if(passed){
-            app.innerHTML ='<h1 class="message">User onboarded succesfully!</h1>';
+          
+          const score = await fetchScore(interviewId, token);
+          if (score.success) {
+            app.innerHTML =`<h1>Onboarding finished with score: ${score.score}</h1>`;
           } else {
-            app.innerHTML ='<h1 class="message">User failed validation.</h1>';
-          }
-        } else if(success===false){
+            app.innerHTML =`<h1>There was an error: ${score.error}</h1>`;
+          } 
+        } else if (onboarding.success===false) {
           clearInterval(interval);
-          app.innerHTML =`<h1 class="message">${error}</h1>`;
+          app.innerHTML =`<h1>There was an error: ${onboarding.error}</h1>`;
         }
       }, 1000);
     } catch(e) {
-      app.innerHTML = e.message;
+      app.innerHTML =`<h1>There was an error: ${e.message}</h1>`;
     } 
-
   } catch(e) {
-    app.innerHTML =`<h1 class="message">There was an error: ${e.message}</h1>`;
+    app.innerHTML =`<h1>There was an error: ${e.message}</h1>`;
   } 
 }
 
