@@ -1,29 +1,19 @@
-import {fetchOnboardingStatus} from './onboarding';
+import {fetchScore} from './onboarding';
 
 async function app() {
   const app = document.getElementById('app');
   
-  const urlParams = new URLSearchParams(window.location.search);
-  const interviewId = urlParams.get('interviewId');
-  const flowId = urlParams.get('flowId');
+  const interviewId = localStorage.getItem('interviewId');
+  if (!interviewId) {
+    app.innerHTML = `<h1>Error: Invalid interviewId</h1>`;
+  }
+
+  const score = await fetchScore(interviewId);
   
-  app.innerHTML = `Waiting for the Onboarding status for interviewId: ${interviewId}`;
-  
-  try {
-    const interval = setInterval(async () => {
-      const {success, finished, error } = await fetchOnboardingStatus(interviewId);
-      if (success===true && finished===true){
-        clearInterval(interval);
-        app.innerHTML =`Onboarding Finished!`;
-      } else if(success===false){
-        clearInterval(interval);
-        app.innerHTML =`There was an error: ${error}`;
-      }
-    }, 1000);
-    
-    app.innerHTML =`Waiting for onboarding to finish!`;
-  } catch(e) {
-    app.innerHTML = e.message;
+  if(score.success){
+    app.innerHTML =`<h1>Onboarding finished with score: ${score.score}</h1>`;
+  } else {
+    app.innerHTML = `<h1>Error: ${score.error}</h1>`;
   } 
 }
 

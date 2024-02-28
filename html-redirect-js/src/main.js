@@ -4,11 +4,17 @@ async function app() {
   const app = document.getElementById('app');
   app.innerHTML = "Loading...";
   try {
-    const {url} = await fetchOnboardingUrl();
-    app.innerHTML =`<a href="${url}">Click Here to Continue</a>`;
-    window.location.replace(url);
+    const {success, error, url, interviewId} = await fetchOnboardingUrl();
+    if (success){
+      localStorage.setItem("interviewId", interviewId);
+      
+      app.innerHTML =`<a href="${url}">Click Here to Continue</a>`;
+      window.location.replace(url);
+    } else {
+      app.innerHTML = `<h1>Error: ${error}</h1>`;
+    }
   } catch(e) {
-    app.innerHTML = e.message;
+    app.innerHTML = `<h1>Error: ${e.message}</h1>`;
   } 
 }
 
