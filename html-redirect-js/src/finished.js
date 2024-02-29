@@ -9,12 +9,7 @@ async function app() {
     app.innerHTML = `<h1>Error: Invalid interviewId</h1>`;
   }
 
-  const token = localStorage.getItem('token');
-  if (!token) {
-    app.innerHTML = `<h1>Error: Invalid token</h1>`;
-  }
-
-  const score = await fetchScore(interviewId, token);
+  const score = await fetchScore(interviewId);
   
   if(score.success){
     app.innerHTML =`<h1>Onboarding finished with score: ${score.score}</h1>`;
