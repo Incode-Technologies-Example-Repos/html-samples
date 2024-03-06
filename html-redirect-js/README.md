@@ -4,6 +4,40 @@ url of the onboarding and redirect the user to that page, then come
 back using the redirectionURL property of the workflow to fetch
 the score.
 
+The full steps between the customer site, incode¿s hosted flows,  and backend can be seen in this diagram.
+
+```mermaid
+sequenceDiagram
+    participant i as Incode<br>Hosted<br>Workflow
+    participant m as Customer<br>Site
+    participant b as Backend
+
+    activate m
+    m-->>b: Get Onboarding URL
+    note over b: runs /omni/start,<br>/omni/onboarding-url
+    b-->>m: {url, interviewId}
+    note over m: Save interviewId in localStore
+    m->>i: Redirect user to Incode's URL
+    deactivate m
+    
+    activate i
+    note over i: Do Onboarding
+    note over i: Show thank you screen
+    i->>m: Redirect user to customer page
+    deactivate i
+    
+    activate m
+    note over m: Show finishing page
+    note over m: read interviewId from localStore
+    m-->>b: Fetch Score<br>{interviewId}
+    note over b: Fetch Score
+    
+    b-->>m: {scores}
+    note over m: Done
+    deactivate m
+```
+
+
 # Backend Server
 A backend server that will generate the url is needed for this sample,
 luckily for you we already have sample server for PHP, NodeJS, Python,

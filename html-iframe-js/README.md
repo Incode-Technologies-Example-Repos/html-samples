@@ -3,6 +3,42 @@ This app showcase how to create a low code app that will fetch the
 url of the onboarding, load it in an iframe and wait for it to finish
 before fetching the score.
 
+```mermaid
+sequenceDiagram
+    participant i as Incode<br>Hosted<br>Workflow
+    participant m as Customer<br>Site
+    participant b as Backend
+
+    activate m
+    m-->>b: Get Onboarding URL
+    note over b: runs /omni/start,<br>/omni/onboarding-url
+    b-->>m: {url, interviewId}
+    note over m: Create Iframe with URL
+    m->>i: Onboarding starts in backend
+    
+    par
+        activate i
+        note over i: Do Onboarding
+        note over i: Finish onboarding
+        deactivate i
+    and
+        loop
+            m-->>b: {interviewId}
+            note over b: Fetch Onboarding Status
+            b-->>m: {onboardingStatus}
+            note over m: If ONBOARDING_FINISHED then<br>continue
+        end
+    end
+    
+    note over m: Destroy Iframe
+    m-->>b: Fetch Score<br>{interviewId}
+    note over b: Fetch Score
+    
+    b-->>m: {scores}
+    note over m: Done
+    deactivate m
+```
+
 # Backend Server
 A backend server that will generate the url is needed for this sample,
 luckily for you we already have sample server for PHP, NodeJS, Python,
