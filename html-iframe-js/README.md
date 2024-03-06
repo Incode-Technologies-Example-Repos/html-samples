@@ -1,122 +1,41 @@
-# Implmentation for HTML + IFrame + JS
+# Sample Iframe App
+This app showcase how to create a low code app that will fetch the
+url of the onboarding, load it in an iframe and wait for it to finish
+before fetching the score.
 
-This sample embeds an Incode Iframe app inside an HTML page.  It can be used as a reference for building a production applications.
+# Backend Server
+A backend server that will generate the url is needed for this sample,
+luckily for you we already have sample server for PHP, NodeJS, Python,
+PHP and Java and .NET, please reffer to our documentation on subject:
+[Quick Start Sample Server](https://developer.incode.com/docs/quick-start-servers)
 
-See setup instructions, [Setup and Run App](#setup-and-run-app).
+In order to simplfy development, this repo is configured to reverse
+proxy a local backend server (`http://localhost:3000`) in the `/api`
+url like `https://<your-ip>:5173/api`, if you want to point your
+frontend development to a backend server deployed elsewhere, change
+the VITE_TOKEN_SERVER_URL to the full url of such server.
 
-## Project Setup
-
-Using the command line, clone the GitHub Sample repo named html-samples to your computer.  Next change directory to the root of html-iframe-js folder which contains the package.json file. 
-
+# Install
+First install all the required packages
 ```
-cd ./html-samples/html-iframe-js
-```
-
-## Security Considerations
-
-This app factors in a few security stratagies.  When deploying to production, please follow your company's best pratices for hosting both web apps and services.
-
-1. HTTPS Communication 
-
-This sample uses a self signed certificate for localhost development.  You will need to create this using the following command.
-
-```
-openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out cert.pem
+npm install
 ```
 
-2. Session Invocation
-
-It's a best pratice to create an Incode sessions on a server (not on the client).  This sample includes links to sample servers which start a session on the server.
-
-Check out sample servers here:
-
-* _.NET_ - [.NET Sample Server][dotnet_url_sample]
-* _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
-* _Java_ - TBD
-* _PHP_ - TBD
-* _Python_ - TBD
-
-This sample fetches a session from the sample server in the onload function inside ```main.js``` and places the onboarding ```url```, ```interviewId``` and ```token``` inside the config object. 
-
-## HTML Structure 
-
-This HTML IFrame sample uses a Vite development environment.  Vite is a NPM tool that enables packaging and app building for modern web projects.  The project structure is as follows:
-
-The root includes core dependencies:
+# Configure
+Copy `.env.example` as `.env` and configure it to point to a remote
+server, or leave it as /api to point to the reverse proxied server
+running in your local machine
 
 ```
-./package.json
-./vite.config.js
-./index.html (required by Vite)
+VITE_TOKEN_SERVER_URL=/api
 ```
 
-The src folder includes source files:
-
+# Development
+This repo is configured so run it in development by executing
 ```
-./src/main.js
-./src/incode.js
-```
-
-The public folder includes web assets
-
-```
-./public/robots.txt
+npm run dev
 ```
 
-
-## JavaScript for Frontend
-
-This app includes a single Javascript file inside ```src``` name ```main.js```.  The script does the following :
-
-* Places bussiness logic inside window.onload()
-* Fetches Incode session from Sample Server and puts response into a config object
-* Dynically creates IFrame and starts Polling (every 2 seconds) if config object contains ```url```, ```interviewId``` and ```token``` 
-* Clears the IFrame and displays a finish message
-
-
-## Backend Endpoint
-
-The app requires a prerequisite backend server.  Specifically, this app calls this endpoint ``` `${serverUrl}/onboarding-url` ``` which returns the following JSON to this app.
-
-```
-{
-    "token": "<token>",
-    "interviewId": "<interviewId>",
-    "url": "<onboarding-url>"
-}
-
-```
-
-## Styling
-
-The styling of the app is set inside ```src/styles/style.css```.  If you would like to change the look and feel of the Web Flow application, login to your Incode Dashboard and change the app styling from the configuration menu via the ```Customization``` tab.
-
-
-# Setup and Run App
-
-1) Select and start a sample server:
-
-* _.NET_ - [.NET Sample Server][dotnet_url_sample]
-* _NodeJs_ - [NodeJS Sample Server][nodejs_url_sample]
-* _Java_ - TBD
-* _PHP_ - TBD
-* _Python_ - TBD
-
-2) Set the ```.env.example ``` variables to the following
-
-```
-VITE_INCODE_API_URL=https://demo-api.incodesmile.com/0
-VITE_YOUR_COMPANY_SERVER=<your-sample-server-base-url>
-```
-
-and rename it to ```.env```
-
-3) Run ```npm install```
-
-3) Run ```npm run dev```
-
-
-
-[dotnet_url_sample]: https://github.com/Incode-Technologies-Example-Repos/dotnet-samples/tree/main/token-server
-
-[nodejs_url_sample]: https://github.com/Incode-Technologies-Example-Repos/nodejs-samples/tree/main/token-and-url-server
+You will get a hot reloading environment that exposes the page in
+localhost and in the ip of the machine in case you want to try it
+in your cellphone.
