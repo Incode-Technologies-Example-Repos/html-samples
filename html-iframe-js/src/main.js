@@ -27,6 +27,10 @@ async function app() {
       if (onboarding.success===true && onboarding.onboardingStatus==='ONBOARDING_FINISHED'){
         clearInterval(interval);
         
+        // Remove iframe from the parent node
+        frame = document.getElementById('app-frame');
+        frame.parentNode.removeChild(frame);
+        
         const score = await fetchScore(interviewId);
         if (score.success) {
           app.innerHTML =`<h1>Onboarding finished with score: ${score.score}</h1>`;
