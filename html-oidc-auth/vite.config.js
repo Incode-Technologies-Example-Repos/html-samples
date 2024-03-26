@@ -6,15 +6,6 @@ export default defineConfig({
     https: true,
     port: 443,
     host: 'development.incode.local',
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,      
-        ws: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      }
-    }
   },
   plugins: [ mkcert() ]
 })

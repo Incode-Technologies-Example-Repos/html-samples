@@ -1,11 +1,9 @@
-import {validateFaceAuthentication} from './oidc';
+import {validateFaceAuthentication, fetchUserInfo} from './oidc';
 
 async function app() {
-  //const urlParams = new URLSearchParams(window.location.search);
   const app = document.getElementById('app');
   app.innerHTML = `<h1>Loading...</h1>`;
   
-  //const code = urlParams.get("code");
   const code_verifier = localStorage.getItem('code_verifier');
   const state = localStorage.getItem('state');
   if (!code_verifier) {
@@ -13,9 +11,12 @@ async function app() {
     return
   }
   try {
-    const validation = await validateFaceAuthentication(code_verifier, state);
+    const oidcSession = await validateFaceAuthentication(code_verifier, state);
     app.innerHTML = `<h1>Validated</h1>`;
-    console.log({validation});
+    console.log({oidcSession});
+    const userinfo = await fetchUserInfo(oidcSession);
+    console.log(userinfo);
+    app.innerHTML = `<h1>User Info:</h1><pre>${JSON.stringify(userinfo, null, '  ')}`;
   }catch(error) {
     app.innerHTML = `<h1>${error}</h1>`;
   }
