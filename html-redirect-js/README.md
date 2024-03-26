@@ -8,7 +8,7 @@ The full steps between the customer site, incode's hosted flows,  and backend ca
 
 ```mermaid
 sequenceDiagram
-    participant i as Incode<br>Hosted<br>Workflow
+    participant i as Incode's<br>Web<br>Flows
     participant m as Customer<br>Site
     participant b as Backend
 
