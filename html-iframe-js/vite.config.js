@@ -14,6 +14,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [ mkcert() ],
-  
+  plugins: [ mkcert() ]
 })
