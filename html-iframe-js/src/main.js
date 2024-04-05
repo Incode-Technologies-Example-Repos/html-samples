@@ -44,7 +44,7 @@ async function app() {
         clearInterval(interval);
         app.innerHTML =`<h1>There was an error: ${onboarding.error}</h1>`;
       }
-    }, 1000);
+    }, 100000);
   } catch(e) {
     app.innerHTML =`<h1>There was an error: ${e.message}</h1>`;
   } 
