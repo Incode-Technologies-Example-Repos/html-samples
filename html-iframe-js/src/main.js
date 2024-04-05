@@ -31,7 +31,7 @@ async function app() {
         clearInterval(interval);
         
         // Remove iframe from the parent node
-        frame = document.getElementById('app-frame');
+        const frame = document.getElementById('app-frame');
         frame.parentNode.removeChild(frame);
         
         const score = await fetchScore(interviewId, token);
