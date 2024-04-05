@@ -5,8 +5,11 @@ export async function fetchOnboardingStatus(interviewId) {
   return await response.json();
 }
 
-export async function fetchScore(interviewId) {
-  const response = await fetch(`${tokenServerURL}/fetch-score?interviewId==${interviewId}`, {});
+export async function fetchScore(interviewId, token) {  
+  const headers = new Headers({
+    'X-Token': token
+  });
+  const response = await fetch(`${tokenServerURL}/fetch-score?interviewId=${interviewId}`, {headers});
   return await response.json();
 }
 

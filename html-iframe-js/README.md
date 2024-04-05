@@ -75,3 +75,10 @@ npm run dev
 You will get a hot reloading environment that exposes the page in
 localhost and in the ip of the machine in case you want to try it
 in your cellphone.
+
+# Polling Schema
+For a proper execution of this project, it is necessary to define
+the ADMIN_TOKEN in the .env files of your backend project.
+
+The admin token will be used during the /onboarding-status endpoint call 
+to check whether a session is finished or not and consequently fetch its score.

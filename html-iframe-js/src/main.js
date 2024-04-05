@@ -18,20 +18,23 @@ const createIframe = (url) => {
 async function app() {
   const app = document.getElementById('app');
   try {
-    const {url, interviewId} = await fetchOnboardingUrl();
+    const {url, interviewId, token} = await fetchOnboardingUrl();
     app.innerHTML = "";
-    createIframe(url);
     
+    if (url) {
+      createIframe(url);
+    }
+
     const interval = setInterval(async () => {
       const onboarding = await fetchOnboardingStatus(interviewId);
       if (onboarding.success===true && onboarding.onboardingStatus==='ONBOARDING_FINISHED'){
         clearInterval(interval);
         
         // Remove iframe from the parent node
-        frame = document.getElementById('app-frame');
+        const frame = document.getElementById('app-frame');
         frame.parentNode.removeChild(frame);
         
-        const score = await fetchScore(interviewId);
+        const score = await fetchScore(interviewId, token);
         if (score.success) {
           app.innerHTML =`<h1>Onboarding finished with score: ${score.score}</h1>`;
         } else {
@@ -41,7 +44,7 @@ async function app() {
         clearInterval(interval);
         app.innerHTML =`<h1>There was an error: ${onboarding.error}</h1>`;
       }
-    }, 1000);
+    }, 100000);
   } catch(e) {
     app.innerHTML =`<h1>There was an error: ${e.message}</h1>`;
   } 
